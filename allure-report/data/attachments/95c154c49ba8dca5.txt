@@ -1,0 +1,5 @@
+Login completed successfully
+Server selection completed successfully
+Language selection completed successfully
+Page refreshed and Chinese language is visible
+Language switched back to English
