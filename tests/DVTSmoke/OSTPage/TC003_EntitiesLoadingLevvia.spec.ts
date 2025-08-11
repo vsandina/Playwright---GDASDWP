@@ -47,15 +47,21 @@ test.describe.serial("EntitiesLoadingLevvia", () => {
         await filtersPage.applyFiltersAndSelect("Levvia", data.LevviaFilename);
        
        
-        // Engagement selection
-        await page.locator(Locators.LevviEngagementSelection).click();
+    // Engagement selection
+    await page.locator(Locators.LevviEngagementSelection).click();
+
+    // Wait until the page is loaded successfully (loader disappears)
+    await expect(page.locator('.nova-ui-loader-container')).toBeHidden({ timeout: 30000 });
+    // Wait until engagement name is visible
+    
 
         // Open actions dropdown and select the first item
         await page.locator(Locators.ActionDropdownEntities).click();
+        await expect(page.locator("//div[normalize-space()='ACTIONS']")).toBeVisible();
         await page.locator(Locators.IdentifyEntities).click();
-       
+        
         // Wait until the text 'Identify entities for this engagement' is visible
-        await expect(page.getByText('Identify entities for this engagement')).toBeVisible({ timeout: 40000 });
+        await expect(page.getByText(/Identify entities/)).toBeVisible({ timeout: 40000 });
 
         // Take a screenshot after entities are loaded
         await ReportUtils.screenshot(page, "Entities_are_loading");

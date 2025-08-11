@@ -13,7 +13,7 @@ test.use({
   viewport: { width: 1920, height: 937 },
 });
 
-test.describe.serial("FiltersOnHomepage", () =>
+test.describe.serial("TC001_FiltersOnHomepage", () =>
 {// Describe the test suite for FiltersOnHomepage
 
     let login: LoginPage;// Declare the LoginPage object
@@ -35,12 +35,13 @@ test.describe.serial("FiltersOnHomepage", () =>
         serverSelection = new ServerSelection(page);
     });
 
-test("TC005_Filter", async () => {
+test("TC001_FiltersOnHomepage", async () => {
     // Login
     await login.enterUserName(data.email);
     await login.nxtButton();
     await login.enterUserPassword(data.pass);
     await login.clickSignBtn();
+    await page.locator(Locators.popup).click();
     console.log("Login completed successfully");
 
     // Server Selection

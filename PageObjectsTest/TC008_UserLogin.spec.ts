@@ -10,7 +10,6 @@ test.use({
   viewport: { width: 1920, height: 1080 },
 });
 
-
 test.describe.serial("TC001", () => {// Describe the test suite for TC001
     
     let login: LoginPage;// Declare the LoginPage object

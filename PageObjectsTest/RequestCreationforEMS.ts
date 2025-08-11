@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { Locators } from './locators';
 
 export default class RequestCreationPage {
@@ -8,7 +8,7 @@ export default class RequestCreationPage {
         this.page = page;
     }
 
-    async createRequest(requestName: string = 'checkpoint-vinod') {
+    async createRequestEMS(requestName: string = 'checkpoint-vinod') {
         // await this.page.locator(Locators.addbutton1).click();
         await this.page.click(Locators.engagementselection);
         await this.page.click(Locators.createrequestaddButton);
@@ -28,19 +28,17 @@ export default class RequestCreationPage {
         // Select the first visible option in the dropdown dynamically
         await this.page.locator(Locators.EntityNameDropdown).click();
         await this.page.locator('.aoui-select-results__option-label').nth(0).click();
-        await this.page.locator("//input[@class='aoui-select-search__field ng-valid ng-touched ng-dirty']").fill('char');
-        await this.page.locator("#ngb-searchbox-0-0").click();
-        // await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').click();
-        // await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').fill('char');
+        await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').click();
+        await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').fill('char');
         await this.page.locator(Locators.chargeCodeListItem).getByRole('listitem').locator('span').click();
         await this.page.getByText(Locators.chargeCodeText).click();
-        // Fill Data Due Date (today) and Request Due Date (tomorrow) directly in the input fields //span[@class='aoui-select-results'][@class='aoui-select-results']
+        // Fill Data Due Date (today) and Request Due Date (tomorrow) directly in the input fields
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         const formattedDate = `${mm}/${dd}/${yyyy}`;
-       
+        // Tomorrow's date
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
         const yyyy2 = tomorrow.getFullYear();
@@ -55,19 +53,15 @@ export default class RequestCreationPage {
         // Phase Dropdown
         await this.page.locator(Locators.phasedropdown).click();
         await this.page.locator(Locators.phaseselection).click();
-
-        await this.page.locator(Locators.ManagerDropdown).click();
-        // Select the first available option in the dropdown
-        await this.page.locator('.aoui-select-results__options div').first().click();
+        await this.page.locator('#lead-engagement-manager').click();
+        await this.page.locator(".aoui-select-results__option-label").nth(0).click();
         // Fill in the request name and description
         await this.page.locator('#addDetails .aoui-form-control').nth(0).fill('Test1');
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
-        
-        await this.page.locator("//span[normalize-space()='Submit Request']").click();
-        
-        
-    
+        await this.page.locator('button:has-text("Submit Request")').click();
+        await expect(this.page.locator('.nova-ui-loader-container')).toBeHidden({ timeout: 30000 });
+
     }
 }
 

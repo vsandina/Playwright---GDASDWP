@@ -51,8 +51,7 @@ test.describe.serial("TC011_OminaIntergationSingleRequest", () => {
 
     test("Filters and Dropdowns", async () => {
         await filtersPage.applyFiltersAndSelect("Omnia", data.OmniaFilename);
-    
-     
+         
     });
 
     test("TC011_TC011_OminaIntergationSingleRequest", async () => {
@@ -63,21 +62,16 @@ test.describe.serial("TC011_OminaIntergationSingleRequest", () => {
         await ReportUtils.screenshot(page, "Request_Creation_Success");
         await page.waitForSelector('.datatable-body-row');
         const firstRow = page.locator('.datatable-body-row').first();
-        let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
-        console.log('Buffered requestId:', requestId);
+        let OmniarequestId = await firstRow.locator('.datatable-body-cell').first().innerText();
+        console.log('Buffered requestId:', OmniarequestId);
         // Write the buffered requestId to buffer.json for use in other tests
-        fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId}));
+        fs.writeFileSync('data/buffer.json', JSON.stringify({ OmniarequestId}));
               
     });
-        test("Open Omnia URL", async () => {
+    
+    test("Open Omnia URL", async () => {
         await OmniaPage.NavigatetoOmniaPage();
-        //read the buffered requestid and verify in the omnia portal that request id is present
-        const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
-        const requestId = buffer.requestId;
-        console.log('Read buffered requestId:', requestId); 
-        //if the requestid is not present in the omnia portal then throw an error
-        const requestIdLocator = page.locator(`text=${requestId}`);
-        await expect(requestIdLocator).toBeVisible({ timeout: 15000 });
+        await OmniaPage.verifyRequestIdPresent();
     });
 
     test.afterAll(async () => {

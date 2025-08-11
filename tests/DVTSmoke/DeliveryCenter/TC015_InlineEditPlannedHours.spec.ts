@@ -67,15 +67,37 @@ test.describe.serial("QuickFind", () =>
     // Search for requestId
     await page.locator('#quick-filter-textbox').pressSequentially(requestId);
     await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
-    await page.waitForTimeout(9000); // Wait for the search results to stabilize
+    await page.waitForTimeout(7000); // Wait for the search results to stabilize
     // await page.pause(); // Pause for manual inspection if needed
+
+    await page.locator("//label[@for='radc-requests-list-table-checkbox-selected-0']").click();//radio button
+    await page.locator("(//label[@class='mat-mdc-tooltip-trigger btn btn-default btn-rocker'])[2]").click();
+
+    // Fill all visible number input fields with a value below 20
+        const inputLocator = page.locator('input[type="number"].form-control');
+        const count = await inputLocator.count();
+              for (let i = 0; i < count; i++) {
+                const input = inputLocator.nth(i);
+                await expect(input).toBeVisible({ timeout: 10000 });
+                const isEnabled = await input.isEnabled();
+                if (!isEnabled) continue; // Skip disabled inputs
+                const currentValue = await input.inputValue();
+                if (currentValue === '8') {
+                  await input.fill('9');
+                } else {
+                  await input.fill('8');
+                }
+              }
+    await page.locator("//div[@class='dicon dicon-save-nc text-primary']").click();
+  // Wait for the toaster message 'Your request has been updated successfully' to appear
+    await expect(page.locator("text=Your request has been updated successfully")).toBeVisible({ timeout: 20000 });
+    await page.pause();
     await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
     
-    })
-   
-   test("Cleanup", async () => {
-            if (page) await page.close();
-            if (context) await context.close();
-        });
-        
+  });
+
+  test("Cleanup", async () => {
+    if (page) await page.close();
+    if (context) await context.close();
+  });
 });

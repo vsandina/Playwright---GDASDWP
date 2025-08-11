@@ -6,7 +6,7 @@ import * as data from "../../../data/login.cred.json";
 import ReportUtils from "../../../utils/reportUtils.spec";
 import ServerSelection  from "../../../PageObjectsTest/ServerSelection.spec";
 import FiltersPage from "../../../PageObjectsTest/FiltersPage";
-import RequestCreationPage from "../../../PageObjectsTest/RequestCreationPage";
+
 import { Locators } from '../../../PageObjectsTest/locators';
 import ExecutionPlan  from "../../../PageObjectsTest/ExecutionPlan.spec";
 
@@ -20,7 +20,7 @@ test.describe.serial("EMSRequestCreation", () => {
     let context;
     let serverSelection: ServerSelection;
     let filtersPage: FiltersPage;
-    let requestCreationPage: RequestCreationPage;
+ 
     let executionPlan: ExecutionPlan;
 
     test.beforeAll(async ({ browser }) => {
@@ -30,7 +30,7 @@ test.describe.serial("EMSRequestCreation", () => {
         login = new LoginPage(page);
         serverSelection = new ServerSelection(page);
         filtersPage = new FiltersPage(page);
-        requestCreationPage = new RequestCreationPage(page);
+       
         executionPlan = new ExecutionPlan(page);
     });
 

@@ -71,13 +71,11 @@ test.describe.serial("EditRating", () =>
 
     // Search for requestId
     await page.locator('#quick-filter-textbox').pressSequentially(requestId);
-   
-    const checkboxLabel = page.locator("(//label[@for='radc-requests-list-table-checkbox-selected-0'])[1]");
-    await checkboxLabel.waitFor({ state: 'visible', timeout: 70000 });
-    await checkboxLabel.click();
-    await page.locator("//div[@class='dicon dicon-ellipsis-nc text-primary']").click();
-    // await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
-    await page.pause()
+    await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
+    await page.waitForTimeout(7000); // Wait for the search results to stabilize
+    // await page.pause(); // Pause for manual inspection if needed
+    
+    await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
         })
    
    test("Cleanup", async () => {

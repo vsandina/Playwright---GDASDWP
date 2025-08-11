@@ -7,6 +7,7 @@ import ServerSelection  from "../../../PageObjectsTest/ServerSelection.spec";
 import FiltersPage from "../../../PageObjectsTest/FiltersPage";
 import RequestCreationPage from '../../../PageObjectsTest/RequestCreationforproject';
 import { Locators } from '../../../PageObjectsTest/locators';
+import * as fs from 'fs';
 
 test.use({
   viewport: { width: 1920, height: 1080 },
@@ -56,7 +57,13 @@ test.describe.serial("RequestForProject", () => {
         await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
         await ReportUtils.screenshot(page, "Request_Creation_Success");
         await page.waitForSelector('.datatable-body-row');
-});
+        const firstRow = page.locator('.datatable-body-row').first();
+                let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
+                console.log('Buffered Project requestId:', requestId);
+                // Write the buffered Project requestId to buffer.json for use in other tests
+                fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
+            });
+
 
     test.afterAll(async () => {
         if (page) await page.close();

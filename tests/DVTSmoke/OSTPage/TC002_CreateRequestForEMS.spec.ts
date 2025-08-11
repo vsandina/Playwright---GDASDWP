@@ -55,22 +55,22 @@ test.describe.serial("EMSRequestCreation", () => {
     });
 
     test("SingleRequestCreation", async () => {
-        requestCreationPage = new RequestCreationPage(page);
-        await requestCreationPage.createRequest(data.requesttemplate);
-        await requestCreationPage.CreateSingleRequest();
-        // Wait for the request created success toaster before taking screenshot
-        await expect(page.locator("//div[@class='sn-title ng-tns-c184397262-10']")).toBeTruthy();
-        await ReportUtils.screenshot(page, "Request_Creation_Success");
-        await expect(page.waitForSelector('.datatable-body-row')).toBeVisible({ timeout: 30000 });
-        const firstRow = page.locator('.datatable-body-row').first();
-        let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
-        console.log('Buffered requestId:', requestId);
-        // Write the buffered requestId to buffer.json for use in other tests
-        fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
-        
-    });
+    requestCreationPage = new RequestCreationPage(page);
+    await requestCreationPage.createRequestEMS(data.requesttemplate);
+    await requestCreationPage.CreateSingleRequest();
+    // Wait for the request created success toaster
+           // Wait for the request created success toaster before taking screenshot
+           await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
+           await ReportUtils.screenshot(page, "Request_Creation_Success");
+           await page.waitForSelector('.datatable-body-row');
+           const firstRow = page.locator('.datatable-body-row').first();
+                   let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
+                   console.log('Buffered EMS requestId:', requestId);
+                   // Write the buffered EMS requestId to buffer.json for use in other tests
+                   fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
+                   
+               });
 
-    // Remove afterAll hook to avoid test.info() error in Allure
     test("Cleanup", async () => {
         if (page) await page.close();
         if (context) await context.close();
