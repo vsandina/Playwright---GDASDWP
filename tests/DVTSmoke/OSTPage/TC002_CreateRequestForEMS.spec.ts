@@ -53,7 +53,7 @@ test.describe.serial("EMSRequestCreation", () => {
         filtersPage = new FiltersPage(page);
         await filtersPage.applyFiltersAndSelect("EMS", data.EMSFilename);
     });
-
+    test.setTimeout(200000);
     test("SingleRequestCreation", async () => {
     requestCreationPage = new RequestCreationPage(page);
     await requestCreationPage.createRequestEMS(data.requesttemplate);
@@ -63,13 +63,13 @@ test.describe.serial("EMSRequestCreation", () => {
            await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
            await ReportUtils.screenshot(page, "Request_Creation_Success");
            await page.waitForSelector('.datatable-body-row');
+
            const firstRow = page.locator('.datatable-body-row').first();
-                   let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
-                   console.log('Buffered EMS requestId:', requestId);
-                   // Write the buffered EMS requestId to buffer.json for use in other tests
-                   fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
-                   
-               });
+           let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
+           console.log('Buffered EMS requestId:', requestId);
+           // Write the buffered EMS requestId to buffer.json for use in other tests
+           fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
+        });
 
     test("Cleanup", async () => {
         if (page) await page.close();

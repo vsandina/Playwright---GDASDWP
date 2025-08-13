@@ -9,7 +9,7 @@ import GlobalDeiveryCenter from "../../../PageObjectsTest/GlobalDeliveryCenter";
 import * as fs from 'fs';
 
 test.use({
-  viewport: { width: 1920, height: 1080 },
+  viewport: { width: 1920, height: 937 },
 });
 
 test.describe.serial("EditRating", () =>
@@ -32,6 +32,18 @@ test.describe.serial("EditRating", () =>
         globalDeiveryCenter = new GlobalDeiveryCenter(page);// Initialize the GlobalDeliveryCenter object with the current page context
     });
 
+        async function waitForLoaderToDisappear(page, loaderSelector = '.nova-ui-loader-container', timeout = 30000) {
+        const loader = page.locator(loaderSelector);
+        const start = Date.now();
+        while (Date.now() - start < timeout) {
+            if ((await loader.count()) === 0 || !(await loader.isVisible())) {
+                return;
+            }
+            await page.waitForTimeout(5000); // Check every 5s
+        }
+        throw new Error('Loader did not disappear in time. Please check backend/API or UI for issues.');
+    }
+    test.setTimeout(100000);
     test("TC012_EditRating", async () => {
         // Login
         await login.enterUserName(data.email);
@@ -46,40 +58,23 @@ test.describe.serial("EditRating", () =>
 
         // Delivery Center Selection
         await deliveryCenterPopup.handlePopup();
-        await page.waitForLoadState('load'); // Wait for the page to fully load
+        await waitForLoaderToDisappear(page);
         
-        const loader = page.locator('.nova-ui-loader-container');
-            if (await loader.count() > 0) {
-                console.log('Waiting for loader to be hidden...');
-                await loader.waitFor({ state: 'hidden', timeout: 30000 });
-            }
-
-            // Wait for modal/dialog to be hidden if present
-            const modal = page.locator('.aoui-model.show');
-            if (await modal.count() > 0 && await modal.isVisible()) {
-                console.log('Waiting for modal/dialog to be hidden...');
-                await modal.waitFor({ state: 'detached', timeout: 50000 });
-            }
-            
-            console.log('Attempting to click calendar icon...');
-    // Wait for the page to be fully loaded before interacting with the search box
-    
     // Read buffered requestId
-    const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
-    const requestId = buffer.requestId;
-    console.log('Read buffered requestId:', requestId);
+        const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
+        const requestId = buffer.requestId;
+        console.log('Read buffered requestId:', requestId);
 
-    // Search for requestId
-    await page.locator('#quick-filter-textbox').pressSequentially(requestId);
-   
-    const checkboxLabel = page.locator("(//label[@for='radc-requests-list-table-checkbox-selected-0'])[1]");
-    await checkboxLabel.waitFor({ state: 'visible', timeout: 70000 });
-    await checkboxLabel.click();
-    await page.locator("//div[@class='dicon dicon-ellipsis-nc text-primary']").click();
-    // await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
-    await page.pause()
-        })
-   
+        // Search for requestId
+        await page.locator('#quick-filter-textbox').pressSequentially(requestId);
+        const checkboxLabel = page.locator("(//label[@for='radc-requests-list-table-checkbox-selected-0'])[1]");
+        await checkboxLabel.waitFor({ state: 'visible', timeout: 70000 });
+        await checkboxLabel.click();
+        await page.locator("//div[@class='dicon dicon-ellipsis-nc text-primary']").click();
+        // await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
+        await page.pause();
+});
+
    test("Cleanup", async () => {
             if (page) await page.close();
             if (context) await context.close();

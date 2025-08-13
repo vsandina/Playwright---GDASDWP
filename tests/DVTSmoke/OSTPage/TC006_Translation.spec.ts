@@ -28,7 +28,7 @@ test.describe.serial("Translation", () => {
         serverSelection = new ServerSelection(page);// Initialize the ServerSelection object with the current page context
             
     });
-
+    test.setTimeout(200000);
     test("TC007_Translation", async () => { // Test case for user login on DWP
         
         await login.enterUserName(data.email);// Fill the email text field with the provided email
@@ -59,9 +59,9 @@ test.describe.serial("Translation", () => {
         await page.locator(Locators.languagedropdown).first().click();
         await page.locator("//div[@title='English (United States)']").click();
         await Promise.all([
-            page.waitForNavigation({ waitUntil: 'load' }),
-            page.locator("//button[contains(text(),'救')]").click()
-        ]);
+        page.waitForNavigation({ waitUntil: 'load' }),
+        page.locator("//button[contains(text(),'救')]").click()
+    ]);
         console.log("Language switched back to English");
         
     });

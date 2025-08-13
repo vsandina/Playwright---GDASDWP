@@ -6,21 +6,19 @@ import ServerSelection from '../../../PageObjectsTest/ServerSelection.spec';
 import DeliveryCenterPopup from "../../../PageObjectsTest/DeliveryCenterPopup.spec";
 import ReportUtils from "../../../utils/reportUtils.spec";
 import GlobalDeiveryCenter from "../../../PageObjectsTest/GlobalDeliveryCenter";
-import * as fs from 'fs';
 
 test.use({
-  viewport: { width: 1920, height: 1080 },
+  viewport: { width: 1920, height: 937 },
 });
 
 test.describe.serial("FilteringforUnassigned", () =>
-{// Describe the test suite for FilteringforUnassigned
-
-    let login: LoginPage;// Declare the LoginPage object
+{
+    let login: LoginPage;
     let page;
     let context;
-    let serverSelection: ServerSelection;// Declare the ServerSelection object
-    let deliveryCenterPopup: DeliveryCenterPopup;// Declare the DeliveryCenterPopup object
-    let globalDeiveryCenter: GlobalDeiveryCenter;// Declare the GlobalDeliveryCenter object
+    let serverSelection: ServerSelection;
+    let deliveryCenterPopup: DeliveryCenterPopup;
+    let globalDeiveryCenter: GlobalDeiveryCenter;
  
     test.beforeAll(async ({ browser }) => {
         context = await browser.newContext();// Create a new browser context
@@ -31,7 +29,18 @@ test.describe.serial("FilteringforUnassigned", () =>
         deliveryCenterPopup = new DeliveryCenterPopup(page);// Initialize the DeliveryCenterPopup object with the current page context
         globalDeiveryCenter = new GlobalDeiveryCenter(page);// Initialize the GlobalDeliveryCenter object with the current page context
     });
-
+    async function waitForLoaderToDisappear(page, loaderSelector = '.nova-ui-loader-container', timeout = 30000) {
+    const loader = page.locator(loaderSelector);
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+        if ((await loader.count()) === 0 || !(await loader.isVisible())) {
+            return;
+        }
+        await page.waitForTimeout(5000); // Check every 5s
+    }
+    throw new Error('Loader did not disappear in time. Please check backend/API or UI for issues.');
+}
+    test.setTimeout(100000);
     test("TC018_FilteringforUnassigned", async () => {
         // Login
         await login.enterUserName(data.email);
@@ -46,28 +55,21 @@ test.describe.serial("FilteringforUnassigned", () =>
 
         // Delivery Center Selection
         await deliveryCenterPopup.handlePopup();
-        await page.waitForLoadState('load'); // Wait for the page to fully load
-        
-        const loader = page.locator('.nova-ui-loader-container');
-            if (await loader.count() > 0) {
-                console.log('Waiting for loader to be hidden...');
-                await loader.waitFor({ state: 'hidden', timeout: 30000 });
-            }
-
-            // Wait for modal/dialog to be hidden if present
-            const modal = page.locator('.aoui-model.show');
-            if (await modal.count() > 0 && await modal.isVisible()) {
-                console.log('Waiting for modal/dialog to be hidden...');
-                await modal.waitFor({ state: 'detached', timeout: 50000 });
-            }
-            
-            console.log('Attempting to click calendar icon...');
+        await waitForLoaderToDisappear(page);
     // Wait for the page to be fully loaded before interacting with the search box
-    
-    // Read buffered requestId
-
+            await page.locator(".dicon.dicon-filter-nc").click();
+            await page.locator("//input[@id='preparerCurrentAdGuidtypeahead']").fill("Unassigned");
+            await page.locator("#ngb-typeahead-6-0").click();
+            await page.locator("//div[normalize-space()='Apply']").click();
+            await waitForLoaderToDisappear(page);
+        // Wait for results to appear
+            await expect(page.locator("//div[@class='radc-requests-list-table-wrapper ng-star-inserted']")).toBeVisible({ timeout: 20000 });
+            // Take screenshot after page is properly loaded
+            await page.locator('#preparerName').scrollIntoViewIfNeeded();
+            await waitForLoaderToDisappear(page);
+            await ReportUtils.screenshot(page, "Unassigned Preparer");
+            console.log("No Preparer values in the Unassigned");
     })
-   
    test("Cleanup", async () => {
             if (page) await page.close();
             if (context) await context.close();

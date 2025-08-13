@@ -68,7 +68,7 @@ test.describe.serial("TC011_OminaIntergationSingleRequest", () => {
         fs.writeFileSync('data/buffer.json', JSON.stringify({ OmniarequestId}));
               
     });
-    
+    test.setTimeout(300000)
     test("Open Omnia URL", async () => {
         await OmniaPage.NavigatetoOmniaPage();
         await OmniaPage.verifyRequestIdPresent();

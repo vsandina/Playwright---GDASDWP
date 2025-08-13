@@ -65,7 +65,7 @@ test.describe.serial("TC001", () => {
     } else {
       console.log("Processing Complete status not reached after maximum reloads.");
     }
-
+    await ReportUtils.screenshot(page, "DataExtract");
     await context.close();
   });
 // Use afterAll hook for cleanup

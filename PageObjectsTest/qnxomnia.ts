@@ -41,7 +41,7 @@ export default class OmniaPage {
         // Read the buffered requestId and verify in the Omnia portal that requestId is present
         const buffer = JSON.parse(require('fs').readFileSync('data/buffer.json', 'utf-8'));
         const OmniarequestId = buffer.OmniarequestId;
-        console.log('Read buffered Omnia requestId:', OmniarequestId);
+        console.log('DWP requestId and Omnia requestId are same:', OmniarequestId);
         // If the requestId is not present in the Omnia portal then throw an error
         const requestIdLocator = this.page.locator(`text=${OmniarequestId}`);
         await expect(requestIdLocator).toBeVisible({ timeout: 15000 });

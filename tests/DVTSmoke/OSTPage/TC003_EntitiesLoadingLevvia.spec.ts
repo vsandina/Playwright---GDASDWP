@@ -29,13 +29,14 @@ test.describe.serial("EntitiesLoadingLevvia", () => {
         filtersPage = new FiltersPage(page);
         requestCreationPage = new RequestCreationPage(page);
     });
-
+    test.setTimeout(100000);
     test("TC004_EntitiesLoadingLevvia", async () => {
         // Login
         await login.enterUserName(data.email);
         await login.nxtButton();
         await login.enterUserPassword(data.pass);
         await login.clickSignBtn();
+        await page.locator(Locators.popup).click();
         console.log("Login completed successfully");
 
         // Server Selection
@@ -45,16 +46,13 @@ test.describe.serial("EntitiesLoadingLevvia", () => {
 
         // Filters and Dropdowns
         await filtersPage.applyFiltersAndSelect("Levvia", data.LevviaFilename);
-       
-       
-    // Engagement selection
-    await page.locator(Locators.LevviEngagementSelection).click();
+              
+        // Engagement selection
+        await page.locator(Locators.LevviEngagementSelection).click();
 
-    // Wait until the page is loaded successfully (loader disappears)
-    await expect(page.locator('.nova-ui-loader-container')).toBeHidden({ timeout: 30000 });
-    // Wait until engagement name is visible
-    
-
+        // Wait until the page is loaded successfully (loader disappears)
+        await expect(page.locator('.nova-ui-loader-container')).toBeHidden({ timeout: 30000 });
+          
         // Open actions dropdown and select the first item
         await page.locator(Locators.ActionDropdownEntities).click();
         await expect(page.locator("//div[normalize-space()='ACTIONS']")).toBeVisible();

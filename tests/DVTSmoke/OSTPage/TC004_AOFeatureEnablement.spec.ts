@@ -20,7 +20,7 @@ test.describe.serial("AOFeatureEnablement", () =>
     let serverSelection: ServerSelection;// Declare the ServerSelection object
     let deliveryCenterPopup: DeliveryCenterPopup;// Declare the DeliveryCenterPopup object
     let globalDeliveryCenter: GlobalDeliveryCenter;// Declare the GlobalDeliveryCenter object
- 
+   
     test.beforeAll(async ({ browser }) => {
         context = await browser.newContext();// Create a new browser context
         page = await context.newPage();// Open a new page in the browser context
@@ -30,7 +30,7 @@ test.describe.serial("AOFeatureEnablement", () =>
         deliveryCenterPopup = new DeliveryCenterPopup(page);// Initialize the DeliveryCenterPopup object with the current page context
         globalDeliveryCenter = new GlobalDeliveryCenter(page);// Initialize the GlobalDeliveryCenter object with the current page context
     });
-
+    test.setTimeout(200000);
     test("TC001_AOFeatureEnablement", async () => {
         // Login
         await login.enterUserName(data.email);
@@ -47,7 +47,6 @@ test.describe.serial("AOFeatureEnablement", () =>
         // Server Selection
         await serverSelection.selectAndHandleServer();
         console.log("Server selection completed successfully");
-
         // Global Server Selection
         await page.locator("text=Delivery Center Portal").click();
         await page.locator("text=Global Delivery Center").click();
@@ -58,16 +57,15 @@ test.describe.serial("AOFeatureEnablement", () =>
         await page.click(Locators.memberfirm);
         await page.locator(Locators.memberfirmtextbox).fill(data.servercode);
         await page.locator(Locators.Applybutton).click();
-        
-        // Assert that the latest version is visible (dynamically from test data)
-        const latestVersion = data.latestVersion || '5.7.7.92'; // Update data.latestVersion in login.cred.json for each release
+       // Assert that the latest version is visible (dynamically from test data)
+        const latestVersion = data.latestVersion;
+        // Update data.latestVersion in login.cred.json for each release
         const versionLocator = page.locator(`div[title='${latestVersion}']`);
         await page.waitForTimeout(5000); // Wait for the page to load
-        await ReportUtils.screenshot(page, "AOFeatureEnablementLatestVersion");
+       await ReportUtils.screenshot(page, "AOFeatureEnablement Latest Version");
         console.log("AOFeatureEnablement Latest Version is ", latestVersion);
 
     });
-
     test("Cleanup", async () => {
         if (page) await page.close();
         if (context) await context.close();

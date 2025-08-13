@@ -8,7 +8,7 @@ export default class FiltersPage {
     }
 
 async applyFiltersAndSelect(filterType: string, filename: string) {
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(20000);
     await this.page.locator("//div[@class='dicon dicon-filter icon-leftspace text-primary']").click();
     await this.page.locator("//span[@class='aoui-select-selection__rendered ng-star-inserted']").click();
     if (filterType.toLowerCase() === 'projects') {

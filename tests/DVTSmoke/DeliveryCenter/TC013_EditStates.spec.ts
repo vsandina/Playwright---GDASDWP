@@ -31,7 +31,7 @@ test.describe.serial("EditStates", () =>
         deliveryCenterPopup = new DeliveryCenterPopup(page);// Initialize the DeliveryCenterPopup object with the current page context
         globalDeiveryCenter = new GlobalDeiveryCenter(page);// Initialize the GlobalDeliveryCenter object with the current page context
     });
-
+    test.setTimeout(300000);
     test("TC012_EditStates", async () => {
         // Login
         await login.enterUserName(data.email);

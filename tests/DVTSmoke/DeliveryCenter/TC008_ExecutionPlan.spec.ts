@@ -20,8 +20,7 @@ test.describe.serial("EMSRequestCreation", () => {
     let context;
     let serverSelection: ServerSelection;
     let filtersPage: FiltersPage;
- 
-    let executionPlan: ExecutionPlan;
+     let executionPlan: ExecutionPlan;
 
     test.beforeAll(async ({ browser }) => {
         context = await browser.newContext();

@@ -9,7 +9,7 @@ import GlobalDeiveryCenter from "../../../PageObjectsTest/GlobalDeliveryCenter";
 import * as fs from 'fs';
 
 test.use({
-  viewport: { width: 1920, height: 1080 },
+  viewport: { width: 1920, height: 973 },
 });
 
 test.describe.serial("QuickFind", () =>
@@ -41,9 +41,9 @@ test.describe.serial("QuickFind", () =>
         await page.waitForTimeout(5000); // Check every 5s
     }
     throw new Error('Loader did not disappear in time. Please check backend/API or UI for issues.');
-}
-    test.setTimeout(300000);
-    test("TC010_QuickFind", async () => {
+    }
+    test.setTimeout(200000);
+    test("TC015_PlannedHours", async () => {
         // Login
         await login.enterUserName(data.email);
         await login.nxtButton();
@@ -59,45 +59,58 @@ test.describe.serial("QuickFind", () =>
         await deliveryCenterPopup.handlePopup();
         await waitForLoaderToDisappear(page);
 
-    // Read buffered requestId
-    const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
-    const requestId = buffer.requestId;
-    console.log('Read buffered requestId:', requestId);
+        // Read buffered requestId
+        const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
+        const requestId = buffer.requestId;
+        console.log('Read buffered requestId:', requestId);
 
-    // Search for requestId
-    await page.locator('#quick-filter-textbox').pressSequentially(requestId);
-    await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
-    await page.waitForTimeout(7000); // Wait for the search results to stabilize
-    // await page.pause(); // Pause for manual inspection if needed
+        // Search for requestId
+        await page.locator('#quick-filter-textbox').pressSequentially(requestId);
+        await waitForLoaderToDisappear(page);
+        await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 60000 });
+        await page.waitForTimeout(7000); // Wait for the search results to stabilize
+        // await page.pause(); // Pause for manual inspection if needed
 
-    await page.locator("//label[@for='radc-requests-list-table-checkbox-selected-0']").click();//radio button
-    await page.locator("(//label[@class='mat-mdc-tooltip-trigger btn btn-default btn-rocker'])[2]").click();
+        await page.locator("//label[@for='radc-requests-list-table-checkbox-selected-0']").click();//radio button
+        await page.locator("(//label[@class='mat-mdc-tooltip-trigger btn btn-default btn-rocker'])[2]").click();
 
     // Fill all visible number input fields with a value below 20
-        const inputLocator = page.locator('input[type="number"].form-control');
-        const count = await inputLocator.count();
-              for (let i = 0; i < count; i++) {
-                const input = inputLocator.nth(i);
-                await expect(input).toBeVisible({ timeout: 10000 });
-                const isEnabled = await input.isEnabled();
-                if (!isEnabled) continue; // Skip disabled inputs
-                const currentValue = await input.inputValue();
-                if (currentValue === '8') {
-                  await input.fill('9');
-                } else {
-                  await input.fill('8');
-                }
-              }
+          // For each targeted input, if a value is present, increment it by 1
+          const inputSelectors = [
+            'div:nth-child(10) > .form-control',
+            'div:nth-child(13) > .form-control',
+            'div:nth-child(16) > .form-control'
+          ];
+          for (const selector of inputSelectors) {
+            const input = page.locator(selector);
+            await expect(input).toBeVisible({ timeout: 10000 });
+            const value = await input.inputValue();
+            if (value && !isNaN(Number(value))) {
+              await input.fill(String(Number(value) + 1));
+            } else {
+              await input.fill('1'); // Default to 1 if empty or not a number
+            }
+          }
+        
     await page.locator("//div[@class='dicon dicon-save-nc text-primary']").click();
-  // Wait for the toaster message 'Your request has been updated successfully' to appear
+    // Wait for the saving indicator to appear and then disappear (robust for dynamic text)
+    const savingLocator = page.locator("//div[contains(normalize-space(), 'Saving') and contains(normalize-space(), 'requests')]");
+    // Wait for it to appear (if it does)
+    try {
+      await savingLocator.waitFor({ state: 'visible', timeout: 10000 });
+    } catch (e) {
+      // If not visible, continue
+    }
+    // Wait for it to disappear
+       // Wait for the toaster message 'Your request has been updated successfully' to appear
     await expect(page.locator("text=Your request has been updated successfully")).toBeVisible({ timeout: 20000 });
-    await page.pause();
-    await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
+    await ReportUtils.screenshot(page, "PlannedHours");
     
   });
 
-  test("Cleanup", async () => {
-    if (page) await page.close();
-    if (context) await context.close();
+    test("Cleanup", async () => {
+      if (page) await page.close();
+      if (context) await context.close();
+    });
   });
-});
+

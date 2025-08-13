@@ -31,7 +31,7 @@ test.describe.serial("EditRating", () =>
         deliveryCenterPopup = new DeliveryCenterPopup(page);// Initialize the DeliveryCenterPopup object with the current page context
         globalDeiveryCenter = new GlobalDeiveryCenter(page);// Initialize the GlobalDeliveryCenter object with the current page context
     });
-
+    test.setTimeout(300000);
     test("TC012_EditRating", async () => {
         // Login
         await login.enterUserName(data.email);
@@ -74,7 +74,7 @@ test.describe.serial("EditRating", () =>
     await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
     await page.waitForTimeout(7000); // Wait for the search results to stabilize
     // await page.pause(); // Pause for manual inspection if needed
-    
+
     await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
         })
    

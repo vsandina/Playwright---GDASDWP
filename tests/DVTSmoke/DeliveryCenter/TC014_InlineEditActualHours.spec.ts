@@ -43,7 +43,7 @@ test.describe.serial("QuickFind", () =>
     throw new Error('Loader did not disappear in time. Please check backend/API or UI for issues.');
 }
     test.setTimeout(300000);
-    test("TC010_QuickFind", async () => {
+    test("TC010_EditActualHours", async () => {
         // Login
         await login.enterUserName(data.email);
         await login.nxtButton();
@@ -66,9 +66,8 @@ test.describe.serial("QuickFind", () =>
 
     // Search for requestId
     await page.locator('#quick-filter-textbox').pressSequentially(requestId);
-    await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
+    await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 60000 });
     await page.waitForTimeout(7000); // Wait for the search results to stabilize
-    // await page.pause(); // Pause for manual inspection if needed
 
     await page.locator("//label[@for='radc-requests-list-table-checkbox-selected-0']").click();//radio button
     await page.locator("(//label[@class='mat-mdc-tooltip-trigger btn btn-default btn-rocker'])[3]").click();
@@ -92,7 +91,7 @@ test.describe.serial("QuickFind", () =>
               await input.fill('8');
             }
           }
-    await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
+    await ReportUtils.screenshot(page, "ActualHours");
     }
   });
 

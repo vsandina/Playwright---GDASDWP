@@ -1,0 +1,188 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - button "App Launcher Menu collapsed, App Launcher Menu Button":
+    - img
+  - img "Deloitte"
+  - navigation "Global":
+    - text: Omnia
+    - tooltip "IST 5.5 Local Time Zone":
+      - button "IST 5.5 Local Time Zone": IST 5.5
+    - textbox:
+      - textbox "Ask Research Assistant"
+    - button "Connectivity Indicator veryFast Connection":
+      - figure
+    - tooltip "help":
+      - button "help"
+    - button "Time Tracking Tool"
+    - button "Notification"
+    - text: "4"
+    - button "user profile": U
+- main:
+  - heading "Welcome to Deloitte Omnia !" [level=2]
+  - textbox:
+    - textbox "Search work files": Audit Report SEMS65
+  - button "Clear Search"
+  - button "Engagement Search Icon" [disabled]
+  - status:
+    - strong: Showing 1 results
+    - heading "AstenJohnson Inc" [level=3]
+    - 'link "Audit Report SEMS65 Icon Period end date: 03/31/2022 AstenJohnson Inc Financial statement audit Active"':
+      - text: Audit Report SEMS65
+      - img "Icon"
+      - text: "Period end date: 03/31/2022 AstenJohnson Inc Financial statement audit Active"
+  - tablist:
+    - 'tab "Tab: My Dashboard" [selected]':
+      - 'button "Tab: My Dashboard"': My Dashboard
+    - 'tab "Tab: Client Hierarchy"':
+      - 'button "Tab: Client Hierarchy"': Client Hierarchy
+    - 'tab "Tab: Engagement List"':
+      - 'button "Tab: Engagement List"': Engagement List
+    - 'tab "Tab: Currently With Me"':
+      - 'button "Tab: Currently With Me"': Currently With Me
+    - 'tab "Tab: Portfolios"':
+      - 'button "Tab: Portfolios"': Portfolios
+  - heading "Recently viewed" [level=2]
+  - button "button": Expand
+  - 'link "Audit Report SEMS65 Icon Period end date: 03/31/2022 518 AstenJohnson Inc Financial statement audit Active"':
+    - text: Audit Report SEMS65
+    - img "Icon"
+    - text: "Period end date: 03/31/2022 518 AstenJohnson Inc Financial statement audit Active"
+  - 'link "Independence confirmation_on ADC/OST Icon Period end date: 03/31/2022 185 AstenJohnson Inc Other Active"':
+    - text: Independence confirmation_on ADC/OST
+    - img "Icon"
+    - text: "Period end date: 03/31/2022 185 AstenJohnson Inc Other Active"
+  - 'link "Tosca_Automation_Omnia_Engagement Icon Period end date: 12/31/2023 207 Elite Running Content Testing Financial statement audit Active"':
+    - text: Tosca_Automation_Omnia_Engagement
+    - img "Icon"
+    - text: "Period end date: 12/31/2023 207 Elite Running Content Testing Financial statement audit Active"
+  - heading "My Pins" [level=2]
+  - text: 1 Files
+  - tooltip "button":
+    - button "button": Filter
+  - textbox:
+    - radiogroup:
+      - radio "[object Object]" [checked]: Card
+      - radio "[object Object]": List
+  - button "Active Filter": In-Flight 1
+  - button "Active Filter": Archived 0
+  - button "Active Filter": Portfolio 0
+  - button "Icon":
+    - img "Icon"
+  - 'link "Audit Report SEMS65 Icon Period end date: 03/31/2022 518 AstenJohnson Inc Financial statement audit Active"':
+    - text: Audit Report SEMS65
+    - img "Icon"
+    - text: "Period end date: 03/31/2022 518 AstenJohnson Inc Financial statement audit Active"
+  - status
+  - button "Icon CREATE ENGAGEMENT":
+    - img "Icon"
+    - text: CREATE ENGAGEMENT
+  - contentinfo:
+    - text: © 2025.For information, contact Deloitte Global. See
+    - link "downloads a pdf":
+      - /url: /Global Privacy Notice.pdf
+      - text: Privacy Statement
+    - text: ","
+    - link "opens in a new window":
+      - /url: /cookies
+      - text: Cookies
+    - text: ", and"
+    - link "downloads a pdf":
+      - /url: /Omnia v4 FE OSS Notices.pdf
+      - text: Notices
+    - text: for more information. Deloitte refers to one or more of Deloitte Touche Tohmatsu Limited (“DTTL”), its global network of member firms, and their related entities(collectively,the “Deloitte organization”). DTTL(also referred to as “Deloitte Global”) and each of its member firms and related entities are legally separate and independent entities, which cannot obligate or bind each other in respect of third parties.DTTL and each DTTL member firm and related entity is liable only for its own acts and omissions, and not those of each other. DTTL does not provide services to clients. Please see
+    - link "opens in a new window":
+      - /url: https://www.deloitte.com/about
+      - text: www.deloitte.com/about
+    - text: to learn more
+  - heading "Collapse Links" [level=2]:
+    - button "Collapse"
+    - text: Links
+  - link "button":
+    - text: Omnia Engagement Dashboard
+    - img "Icon"
+  - heading "News & Tips" [level=2]
+  - list:
+    - listitem:
+      - img "Information"
+      - heading "test-Publish test NEW" [level=2]:
+        - text: test-Publish test
+        - superscript: NEW
+      - application
+      - application
+      - application
+      - application
+      - application
+      - application:
+        - list
+        - list
+      - application:
+        - list
+        - list
+      - application:
+        - list
+        - list
+      - application:
+        - list
+        - list
+      - application:
+        - list
+        - list
+      - textbox:
+        - application "Rich Text Editor":
+          - 'textbox "Rich Text Editor. Editing area: main. Press Alt+0 for help."':
+            - paragraph: test
+      - text: 08/12/2025
+    - listitem:
+      - img "Information"
+      - heading "SW-SPNEW" [level=2]:
+        - text: SW-SP
+        - superscript: NEW
+      - textbox:
+        - application "Rich Text Editor":
+          - 'textbox "Rich Text Editor. Editing area: main. Press Alt+0 for help."':
+            - paragraph: Testing
+      - text: 08/12/2025
+    - listitem:
+      - img "Information"
+      - heading "TestingLibraryUpgradeNEW" [level=2]:
+        - text: TestingLibraryUpgrade
+        - superscript: NEW
+      - textbox:
+        - application "Rich Text Editor":
+          - 'textbox "Rich Text Editor. Editing area: main. Press Alt+0 for help."':
+            - paragraph: testing for library upgrade
+      - text: 08/12/2025
+    - listitem:
+      - img "Information"
+      - heading "Test_2192" [level=2]
+      - textbox:
+        - application "Rich Text Editor":
+          - 'textbox "Rich Text Editor. Editing area: main. Press Alt+0 for help."':
+            - paragraph:
+              - text: odM5SMubV5iD7ru
+              - link "https://qnxomniaame.deloitte.com/":
+                - /url: " https://qnxomniaame.deloitte.com/"
+      - text: 08/11/2025
+    - listitem:
+      - img "Information"
+      - heading "Test_4066 augNEW" [level=2]:
+        - text: Test_4066 aug
+        - superscript: NEW
+      - textbox:
+        - application "Rich Text Editor":
+          - 'textbox "Rich Text Editor. Editing area: main. Press Alt+0 for help."':
+            - paragraph: x3fKV9ObC1o6N7e
+      - text: 08/12/2025
+- contentinfo
+- region "Cookie banner":
+  - dialog "Here's how we use cookies":
+    - heading "Here's how we use cookies" [level=2]
+    - text: Deloitte uses cookies to operate this non-public system for legitimate business reasons to provide you with a more personalized user experience, and to understand and improve system performance and usage. Learn more by reading our
+    - link "More information about your privacy, opens in a new tab":
+      - /url: /cookies
+      - text: Cookie Notice.
+    - button "View cookies, Opens the preference center dialog": View cookies
+    - button "Close"
+```

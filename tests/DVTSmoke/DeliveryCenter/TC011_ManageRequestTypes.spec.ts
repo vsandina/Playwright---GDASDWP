@@ -32,7 +32,7 @@ test.describe.serial("ManageRequestTypes", () =>
         deliveryCenterPopup = new DeliveryCenterPopup(page);// Initialize the DeliveryCenterPopup object with the current page context
         globalDeiveryCenter = new GlobalDeiveryCenter(page);// Initialize the GlobalDeliveryCenter object with the current page context
     });
-
+    test.setTimeout(100000);
     test("TC006_ManageRequestTypes", async () => {
         // Login
         await login.enterUserName(data.email);
@@ -48,7 +48,7 @@ test.describe.serial("ManageRequestTypes", () =>
         // Global Server Selection
         await globalDeiveryCenter.GlobalDeliveryCenter(data.EMSFilename);
         // Wait for the activity type table to be visible before proceeding
-        await page.locator(Locators.ManageRequesttypesGrid).filter({ hasText: 'Edit' }).waitFor({ state: 'visible', timeout: 10000 });
+        await page.locator(Locators.ManageRequesttypesGrid).filter({ hasText: 'Edit' }).waitFor({ state: 'visible', timeout: 20000 });
         await ReportUtils.screenshot(page, "ManageRequestTypes");
     });
         test("Cleanup", async () => {

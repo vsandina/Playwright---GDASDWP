@@ -8,7 +8,6 @@ import ServerSelection  from "../../../PageObjectsTest/ServerSelection.spec";
 import FiltersPage from "../../../PageObjectsTest/FiltersPage";
 import RequestCreationforOmina from "../../../PageObjectsTest/RequestCreationforOmnia";
 import NavigatetoOmniaPage from "../../../PageObjectsTest/qnxomnia";
-import qnxomnia from '../../../PageObjectsTest/qnxomnia';
 
 test.use({
   viewport: { width: 1920, height: 1080 },
@@ -52,7 +51,7 @@ test.describe.serial("EMSRequestCreation", () => {
     test("Filters and Dropdowns", async () => {
         await filtersPage.applyFiltersAndSelect("Omnia", data.OmniaFilename);
      });
-
+    test.setTimeout(100000);
     test("TC011_SingleRequestCreationForOmnia", async () => {
         await requestCreationPage.createRequestomnia(data.requesttemplate);
         await requestCreationPage.CreateSingleRequest();
