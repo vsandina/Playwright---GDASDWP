@@ -37,23 +37,21 @@ test.describe.serial("TC011_OminaIntergationSingleRequest", () => {
             console.log("Login completed successfully");
         });
 
-    test("TC020_EditDueDates", async () => {
-    // Read the buffered OmniarequestId from buffer.json for use in this test
-    const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
-    const OmniarequestId = buffer.OmniarequestId;
-    console.log('Read OmniarequestId from buffer:', OmniarequestId);
-              
-    });
     test.setTimeout(300000)
     test("Open Omnia URL", async () => {
         await OmniaPage.NavigatetoOmniaPage();
-        await OmniaPage.verifyRequestIdPresent();
+        await OmniaPage.FilterwithRequestName();
+        await page.getByRole('gridcell', { name: 'Checkbox not checked' }).locator('label').click();
+  
     });
-    test("EditDueDate", async () => {
+    test("EditStates", async () => {
+                // Implement the test logic for editing states
         
-    
-    });
 
+
+
+
+    });
     test.afterAll(async () => {
         if (page) await page.close();
         if (context) await context.close();

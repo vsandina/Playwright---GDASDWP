@@ -11,7 +11,7 @@ export default class OmniaPage {
 
     public async NavigatetoOmniaPage() {
     // Navigate to the Omnia page
-    await this.page.goto(Env.qnxomnia);
+    await this.page.goto(Env.q4omnia);
     // Wait until the page is fully loaded before any actions
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForLoadState('domcontentloaded');

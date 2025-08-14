@@ -66,20 +66,9 @@ export default class RequestCreationPage {
         // Fill in the request name and description
         await this.page.locator('#addDetails .aoui-form-control').nth(0).fill('Test1');
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
-    //     await this.page.locator("//span[normalize-space()='Upload Documents']").click();
-    //     await this.page.locator("//div[contains(text(),'BROWSE FILES')]").click();
-
-    // // Use Node's path module to resolve the file path
-    // const filePath = path.resolve(__dirname, '../uploads/ADC 1.4.1.docx'); // <-- update this path as needed
-    // const fileInput = this.page.locator('input[type="file"]');
-    // await fileInput.setInputFiles(filePath)
-
         // Submit the request
-    await this.page.locator("//span[normalize-space()='Submit Request']").click();
-        
-        // Wait for the request to be submitted and the page to refresh
-        // await this.page.waitForTimeout(5000); // Adjust the timeout as necessary
-        console.log("Omnia Single Request created successfully");
+        await this.page.locator("//span[normalize-space()='Submit Request']").click();
+          console.log("Omnia Single Request created successfully");
     }
 }
 

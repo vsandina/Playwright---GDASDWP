@@ -1,2 +1,0 @@
-Login completed successfully
-Server selection completed successfully
