@@ -62,7 +62,7 @@ test.describe.serial("AOFeatureEnablement", () =>
         // Update data.latestVersion in login.cred.json for each release
         const versionLocator = page.locator(`div[title='${latestVersion}']`);
         await page.waitForTimeout(5000); // Wait for the page to load
-       await ReportUtils.screenshot(page, "AOFeatureEnablement Latest Version");
+        await ReportUtils.screenshot(page, "AOFeatureEnablement Latest Version");
         console.log("AOFeatureEnablement Latest Version is ", latestVersion);
 
     });
