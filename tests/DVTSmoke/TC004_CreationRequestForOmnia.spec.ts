@@ -61,6 +61,7 @@ test.describe.serial("EMSRequestCreation", () => {
         await page.waitForSelector('.datatable-body-row');
         const firstRow = page.locator('.datatable-body-row').first();
         let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
+        await page.waitForLoadState('domcontentloaded');
         console.log('Buffered requestId:', requestId);
         // Write the buffered requestId to buffer.json for use in other tests
         fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));

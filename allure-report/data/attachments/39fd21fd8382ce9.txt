@@ -1,3 +1,0 @@
-Login completed successfully
-Server selection completed successfully
-Read buffered requestId: 391297

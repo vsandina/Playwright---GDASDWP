@@ -50,7 +50,7 @@ test.describe.serial("RequestForProject", () => {
         await filtersPage.applyFiltersAndSelect("projects", data.projectfilename);
         
     });
-    test.setTimeout(300000);
+    test.setTimeout(200000);
     test("TC013_CreateRequestForProject", async () => {
         await requestCreationPage.createRequestproject(data.requesttemplate);
         await requestCreationPage.CreateSingleRequest();

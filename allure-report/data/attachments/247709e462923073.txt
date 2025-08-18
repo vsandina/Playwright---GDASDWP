@@ -1,0 +1,5 @@
+Login completed successfully
+Server selection completed successfully
+Read buffered requestId: 397178
+ Awaiting Acceptance 
+Awaiting Acceptance

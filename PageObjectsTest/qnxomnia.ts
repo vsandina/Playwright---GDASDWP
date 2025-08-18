@@ -39,19 +39,36 @@ export default class OmniaPage {
     public async verifyRequestIdPresent() {
         // Read the buffered requestId and verify in the Omnia portal that requestId is present
         const buffer = JSON.parse(require('fs').readFileSync('data/buffer.json', 'utf-8'));
-        const OmniarequestId = buffer.OmniarequestId;
-        console.log('DWP requestId and Omnia requestId are same:', OmniarequestId);
+        const requestId = buffer.requestId;
+        console.log('DWP requestId and Omnia requestId are same:', requestId);
         // If the requestId is not present in the Omnia portal then throw an error
-        const requestIdLocator = this.page.locator(`text=${OmniarequestId}`);
+        const requestIdLocator = this.page.locator(`text=${requestId}`);
         await expect(requestIdLocator).toBeVisible({ timeout: 15000 });
+        await this.page.waitForLoadState('domcontentloaded');
     }
         public async FilterwithRequestName() {
-            await this.page.locator("//button[@aria-label='button']").click();
+            await this.page.locator("//span[normalize-space()='Filter']").click();
             await this.page.locator(".coreSelectDropdown-selection-placeholder").click();
             await this.page.locator("//span[@aria-label='Request Name']").click();
-            await this.page.getByPlaceholder('Request Name').fill("Playwright1");
+            await this.page.getByPlaceholder('Request Name').fill("PlaywrightAutomation");
             await this.page.locator("//button[@aria-label='button'][normalize-space()='Apply']").click();
             // Wait for some time after clicking Apply to allow page update
             await this.page.waitForTimeout(5000); // Adjust the timeout as needed
         }
+        public async RequestStatusFilter() {
+            await this.page.locator("//span[normalize-space()='Filter']").click();
+            await this.page.locator(".coreSelectDropdown-selection-placeholder").click();
+            await this.page.locator("//span[@aria-label='Request Status']").click();
+            await this.page.getByRole('combobox', { name: 'Choose...' }).click();
+            await this.page.locator('span').filter({ hasText: 'is any of' }).click();
+            await this.page.getByText('Request Status').nth(2).click();
+            await this.page.getByLabel('Filter', { exact: true }).getByText('Awaiting Acceptance').click();
+            await this.page.locator('.header').click(); 
+            await this.page.getByLabel('Filter', { exact: true }).getByText('Apply').click();
+    }
+            public async RequestStatusCancelled() {
+            await this.page.getByLabel('Filter', { exact: true }).getByText('Cancelled').click();
+            await this.page.locator('.header').click(); 
+            await this.page.getByLabel('Filter', { exact: true }).getByText('Apply').click();
+    }
 }

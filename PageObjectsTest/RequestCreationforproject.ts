@@ -61,7 +61,7 @@ export default class RequestCreationPage {
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
         await this.page.locator("//span[normalize-space()='Submit Request']").click();
-
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(7000); // Adjust the timeout as necessary
         console.log("Project Single Request created successfully");
     }

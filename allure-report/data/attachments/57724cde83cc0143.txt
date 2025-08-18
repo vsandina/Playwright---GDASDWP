@@ -1,0 +1,3 @@
+Login completed successfully
+Server selection completed successfully
+Entities are loaded

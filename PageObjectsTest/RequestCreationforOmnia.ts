@@ -31,7 +31,7 @@ export default class RequestCreationPage {
     // Append text to the existing value in the request name textbox
          await this.page.locator(Locators.EntityNameDropdown).getByText('@!3@^%').first().click();
         await this.page.locator("#request-name").clear();
-        await this.page.locator('#request-name').fill(" Playwright1");
+        await this.page.locator('#request-name').fill(" Playwrightautomation");
         await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').click();
         await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').fill('char');
         await this.page.locator(Locators.chargeCodeListItem).getByRole('listitem').locator('span').click();
@@ -68,7 +68,8 @@ export default class RequestCreationPage {
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
         await this.page.locator("//span[normalize-space()='Submit Request']").click();
-          console.log("Omnia Single Request created successfully");
+        await this.page.waitForLoadState('domcontentloaded');
+        console.log("Omnia Single Request created successfully");
     }
 }
 

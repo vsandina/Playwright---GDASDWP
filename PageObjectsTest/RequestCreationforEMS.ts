@@ -60,6 +60,7 @@ export default class RequestCreationPage {
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
         await this.page.locator('button:has-text("Submit Request")').click();
+        await this.page.waitForLoadState('domcontentloaded');
         await expect(this.page.locator('.nova-ui-loader-container')).toBeHidden({ timeout: 30000 });
 
     }

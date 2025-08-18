@@ -33,7 +33,7 @@ test.describe.serial("EMSRequestCreation", () => {
         login = new LoginPage(page);
         serverSelection = new ServerSelection(page);
     });
-    test.setTimeout(30000); // Set a timeout for the entire test suite
+    test.setTimeout(10000); // Set a timeout for the entire test suite
     test("DWP_UserLoginpage", async () => {
         await login.enterUserName(data.email);
         await login.nxtButton();
@@ -53,11 +53,12 @@ test.describe.serial("EMSRequestCreation", () => {
         filtersPage = new FiltersPage(page);
         await filtersPage.applyFiltersAndSelect("EMS", data.EMSFilename);
     });
-    test.setTimeout(200000);
+    test.setTimeout(100000);
     test("SingleRequestCreation", async () => {
     requestCreationPage = new RequestCreationPage(page);
     await requestCreationPage.createRequestEMS(data.requesttemplate);
     await requestCreationPage.CreateSingleRequest();
+    await page.waitForTimeout(6000);
     // Wait for the request created success toaster
            // Wait for the request created success toaster before taking screenshot
            await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });

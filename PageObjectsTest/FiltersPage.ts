@@ -32,8 +32,8 @@ async applyFiltersAndSelect(filterType: string, filename: string) {
             break;
         case 'omnia':
             await this.page.waitForTimeout(2000);
-            // await this.page.locator("//div[contains(text(),'APA')]").click();
-            // await this.page.locator("//div[contains(text(),'AME')]").click();
+            await this.page.locator("//div[contains(text(),'APA')]").click();
+            await this.page.locator("//div[contains(text(),'AME')]").click();
             await this.page.locator("//input[@placeholder='Engagement Name']").fill(filename);
             await this.page.locator("div.clear-all-button", { hasText: "Apply" }).click();
             break;

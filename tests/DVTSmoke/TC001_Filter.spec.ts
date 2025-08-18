@@ -12,8 +12,8 @@ test.use({
   viewport: { width: 1920, height: 937 },
 });
 
-test.describe.serial("TC001_FiltersOnHomepage", () =>
-{// Describe the test suite for FiltersOnHomepage
+test.describe.serial("TC001_FiltersOnHomepage", () => {
+    // Describe the test suite for FiltersOnHomepage
 
     let login: LoginPage;// Declare the LoginPage object
     let page;
@@ -33,7 +33,7 @@ test.describe.serial("TC001_FiltersOnHomepage", () =>
         login = new LoginPage(page);
         serverSelection = new ServerSelection(page);
     });
-    test.setTimeout(300000);
+    test.setTimeout(200000);
     test("TC001_FiltersOnHomepage", async () => {
     // Login
     await login.enterUserName(data.email);
