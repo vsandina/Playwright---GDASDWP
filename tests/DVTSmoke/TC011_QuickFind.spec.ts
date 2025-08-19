@@ -61,17 +61,17 @@ test.describe.serial("QuickFind", () =>
         await waitForLoaderToDisappear(page);
 
     // Read buffered requestId
-    const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
-    const requestId = buffer.requestId;
-    console.log('Read buffered requestId:', requestId);
+        const buffer = JSON.parse(fs.readFileSync('data/buffer.json', 'utf-8'));
+        const requestId = buffer.requestId;
+        console.log('Read buffered requestId:', requestId);
 
-    // Search for requestId
-    await page.locator('#quick-filter-textbox').pressSequentially(requestId);
-    await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
-    await page.waitForTimeout(7000); // Wait for the search results to stabilize
-    // await page.pause(); // Pause for manual inspection if needed
-    await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
-    
+        // Search for requestId
+        await page.locator('#quick-filter-textbox').pressSequentially(requestId);
+        await expect(page.locator(`text=${requestId}`)).toBeVisible({ timeout: 30000 });
+        await page.waitForTimeout(7000); // Wait for the search results to stabilize
+        // await page.pause(); // Pause for manual inspection if needed
+        await ReportUtils.screenshot(page, "QuickFind_Search_RequestId");
+        
     })
     test.setTimeout(200000);
         test("TC025_RequestPage", async () => {

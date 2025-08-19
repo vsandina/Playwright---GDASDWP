@@ -73,7 +73,8 @@ test.describe.serial("View Availability", () => {
 
         await page.locator('text=Select All').nth(1).click();
         // If loader can appear again, repeat wait as needed
-        
+        await page.locator("//span[@class='ng-tns-c336976145-5'][normalize-space()='×']").nth(1).click();
+
         await page.locator("//button[normalize-space()='Show Availability']").click();
         await waitForLoaderToDisappear(page);
 

@@ -30,7 +30,10 @@ test.describe.serial("EmsCreation", () => {
     await login.nxtButton();
     await login.enterUserPassword(data.pass);
     await login.clickSignBtn();
-    await page.locator(Locators.popup).click();
+        const closeButton = page.getByRole('button', { name: 'Close' });
+        if (await closeButton.isVisible().catch(() => false)) {
+            await closeButton.click();
+        }
     console.log("Login completed successfully");
   }
 

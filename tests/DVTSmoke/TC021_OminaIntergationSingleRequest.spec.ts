@@ -9,6 +9,7 @@ import FiltersPage from "../../PageObjectsTest/FiltersPage";
 import RequestCreationforOmina from "../../PageObjectsTest/RequestCreationforOmnia";
 import NavigatetoOmniaPage from "../../PageObjectsTest/qnxomnia";
 import qnxomnia from '../../PageObjectsTest/qnxomnia';
+import { Locators } from '../../PageObjectsTest/locators';
 
 test.use({
   viewport: { width: 1920, height: 1080 },
@@ -39,7 +40,10 @@ test.describe.serial("TC011_OminaIntergationSingleRequest", () => {
         await login.nxtButton();
         await login.enterUserPassword(data.pass);
         await login.clickSignBtn();
-        await page.locator("//button[@class='onetrust-close-btn-handler banner-close-button ot-close-icon']").click();
+        const closeButton = page.getByRole('button', { name: 'Close' });
+        if (await closeButton.isVisible().catch(() => false)) {
+            await closeButton.click();
+        }        
         console.log("Login completed successfully");
     });
 
@@ -51,7 +55,7 @@ test.describe.serial("TC011_OminaIntergationSingleRequest", () => {
 
     test("Filters and Dropdowns", async () => {
         await filtersPage.applyFiltersAndSelect("Omnia", data.OmniaFilename);
-         
+        
     });
 
     test("TC011_TC011_OminaIntergationSingleRequest", async () => {

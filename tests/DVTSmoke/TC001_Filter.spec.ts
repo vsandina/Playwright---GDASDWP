@@ -33,14 +33,13 @@ test.describe.serial("TC001_FiltersOnHomepage", () => {
         login = new LoginPage(page);
         serverSelection = new ServerSelection(page);
     });
-    test.setTimeout(200000);
+    test.setTimeout(50000);
     test("TC001_FiltersOnHomepage", async () => {
     // Login
     await login.enterUserName(data.email);
     await login.nxtButton();
     await login.enterUserPassword(data.pass);
     await login.clickSignBtn();
-    await page.locator(Locators.popup).click();
     console.log("Login completed successfully");
 
     // Server Selection
@@ -48,7 +47,7 @@ test.describe.serial("TC001_FiltersOnHomepage", () => {
     console.log("Server selection completed successfully");
 
     // Filter on Homepage
-    await page.waitForTimeout(10000);
+    await page.waitForTimeout(5000);
     await page.locator(Locators.filtericon).click();
     await page.locator(Locators.fiterdropdown).click();
     // Check for required product types in the dropdown

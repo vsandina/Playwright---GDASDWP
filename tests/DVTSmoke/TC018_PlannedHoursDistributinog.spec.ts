@@ -58,7 +58,7 @@ test.describe.serial("QuickFind", () => {// Describe the test suite for QuickFin
         // Delivery Center Selection
         await deliveryCenterPopup.handlePopup();
         // Wait for full page load after popup is handled
-        await page.waitForLoadState('networkidle');
+        // await page.waitForLoadState('networkidle');
         await page.waitForLoadState('domcontentloaded');
         await waitForLoaderToDisappear(page);
         // Read buffered requestId

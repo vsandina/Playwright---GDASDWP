@@ -17,7 +17,7 @@ export default defineConfig({
   expect: {
     timeout: 2 * 60 * 1000, // Set a timeout of 120 seconds for each expect
   },
-  workers: 1,
+  workers: 2,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

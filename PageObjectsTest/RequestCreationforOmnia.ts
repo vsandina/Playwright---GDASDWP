@@ -67,6 +67,8 @@ export default class RequestCreationPage {
         await this.page.locator('#addDetails .aoui-form-control').nth(0).fill('Test1');
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
+        const closeButton = this.page.locator('#onetrust-close-btn-container');
+        await closeButton.click();
         await this.page.locator("//span[normalize-space()='Submit Request']").click();
         await this.page.waitForLoadState('domcontentloaded');
         console.log("Omnia Single Request created successfully");

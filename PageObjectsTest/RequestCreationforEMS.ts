@@ -59,6 +59,8 @@ export default class RequestCreationPage {
         await this.page.locator('#addDetails .aoui-form-control').nth(0).fill('Test1');
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
+        const closeButton = this.page.locator('#onetrust-close-btn-container');
+        await closeButton.click();
         await this.page.locator('button:has-text("Submit Request")').click();
         await this.page.waitForLoadState('domcontentloaded');
         await expect(this.page.locator('.nova-ui-loader-container')).toBeHidden({ timeout: 30000 });

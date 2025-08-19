@@ -39,7 +39,6 @@ test.describe.serial("EMSRequestCreation", () => {
         await login.nxtButton();
         await login.enterUserPassword(data.pass);
         await login.clickSignBtn();
-        await page.locator(Locators.popup).click();
         console.log("Login completed successfully");
     });
 
@@ -52,6 +51,7 @@ test.describe.serial("EMSRequestCreation", () => {
     test("Filters and Dropdowns", async () => {
         filtersPage = new FiltersPage(page);
         await filtersPage.applyFiltersAndSelect("EMS", data.EMSFilename);
+        
     });
     test.setTimeout(100000);
     test("SingleRequestCreation", async () => {
@@ -63,8 +63,9 @@ test.describe.serial("EMSRequestCreation", () => {
            // Wait for the request created success toaster before taking screenshot
            await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
            await ReportUtils.screenshot(page, "Request_Creation_Success");
+           await page.waitForTimeout(5000);
+        //    await page.locator('.radc-list-div-table .datatable-body').waitFor();
            await page.waitForSelector('.datatable-body-row');
-
            const firstRow = page.locator('.datatable-body-row').first();
            let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
            console.log('Buffered EMS requestId:', requestId);

@@ -38,7 +38,10 @@ test.describe.serial("EMSRequestCreation", () => {
         await login.nxtButton();
         await login.enterUserPassword(data.pass);
         await login.clickSignBtn();
-        await page.locator(Locators.popup).click();
+        const closeButton = page.getByRole('button', { name: 'Close' });
+        if (await closeButton.isVisible().catch(() => false)) {
+            await closeButton.click();
+        }
         console.log("Login completed successfully");
     });
 
@@ -58,7 +61,7 @@ test.describe.serial("EMSRequestCreation", () => {
         const firstRow = page.locator('.datatable-body-row').first();
         let requestIdCell = firstRow.locator('.datatable-body-cell').first();
         let requestId = await requestIdCell.innerText();
-        console.log('Clicking on the first RequestID:', requestId);
+        console.log('Clicking on the first EngagementID:', requestId);
         await requestIdCell.click();
         // Write the buffered requestId to buffer.json for use in other tests
         // fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));

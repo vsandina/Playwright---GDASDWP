@@ -59,7 +59,16 @@ export default class RequestCreationPage {
         // Fill in the request name and description
         await this.page.locator('#addDetails .aoui-form-control').nth(0).fill('Test1');
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
+        // Dismiss cookie consent overlay if present
+        const consentBanner = this.page.locator('#onetrust-policy-text');
+        if (await consentBanner.isVisible().catch(() => false)) {
+            await consentBanner.click();
+        }
+        // Optionally, wait for overlay to disappear
+        await this.page.locator('#onetrust-consent-sdk').waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {});
         // Submit the request
+        const closeButton = this.page.locator('#onetrust-close-btn-container');
+        await closeButton.click();
         await this.page.locator("//span[normalize-space()='Submit Request']").click();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(7000); // Adjust the timeout as necessary

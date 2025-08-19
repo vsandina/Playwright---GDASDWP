@@ -8,6 +8,7 @@ import ServerSelection  from "../../PageObjectsTest/ServerSelection.spec";
 import FiltersPage from "../../PageObjectsTest/FiltersPage";
 import RequestCreationforOmina from "../../PageObjectsTest/RequestCreationforOmnia";
 import NavigatetoOmniaPage from "../../PageObjectsTest/qnxomnia";
+import { Locators } from '../../PageObjectsTest/locators';
 
 test.use({
   viewport: { width: 1920, height: 1080 },
@@ -38,7 +39,10 @@ test.describe.serial("EMSRequestCreation", () => {
         await login.nxtButton();
         await login.enterUserPassword(data.pass);
         await login.clickSignBtn();
-        await page.locator("//button[@class='onetrust-close-btn-handler banner-close-button ot-close-icon']").click();
+        const closeButton = page.getByRole('button', { name: 'Close' });
+        if (await closeButton.isVisible().catch(() => false)) {
+            await closeButton.click();
+        }
         console.log("Login completed successfully");
     });
 
@@ -50,6 +54,7 @@ test.describe.serial("EMSRequestCreation", () => {
 
     test("Filters and Dropdowns", async () => {
         await filtersPage.applyFiltersAndSelect("Omnia", data.OmniaFilename);
+        
      });
     test.setTimeout(100000);
     test("TC011_SingleRequestCreationForOmnia", async () => {
@@ -58,6 +63,7 @@ test.describe.serial("EMSRequestCreation", () => {
         // Wait for the request created success toaster before taking screenshot
         await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
         await ReportUtils.screenshot(page, "Request_Creation_Success");
+        await page.waitForTimeout(5000);
         await page.waitForSelector('.datatable-body-row');
         const firstRow = page.locator('.datatable-body-row').first();
         let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();

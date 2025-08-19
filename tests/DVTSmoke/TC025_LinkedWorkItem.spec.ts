@@ -62,7 +62,7 @@ test.describe.serial("LinkedWorkItem", () =>
         await expect(page.locator(`text=396240`)).toBeVisible({ timeout: 30000 });
         await page.waitForTimeout(5000); // Wait for the search results to stabilize
              
-        await page.locator("//a[normalize-space()='Playwright1']").click();
+        await page.locator("//a[normalize-space()='PlaywrightAutomation']").click();
 
         // Listen for the new page event
         const [newPage] = await Promise.all([
@@ -72,10 +72,11 @@ test.describe.serial("LinkedWorkItem", () =>
         console.log("Linked Work Item is visible and clicked on the Linked Work Item");
 
         // Wait for the new page to load
+        await newPage.waitForLoadState('networkidle');
         await newPage.waitForLoadState('domcontentloaded');
 
         // Optionally, wait for a specific element on the new page
-        await newPage.waitForSelector('.dataTableRowsContainer', { state: 'visible' });
+        await newPage.waitForSelector('.dataTableRowsContainer', { state: 'visible', timeout: 60000 });
         console.log("Navigate to linked work item");
         await ReportUtils.screenshot(page, "Linked Work Item is visible");
     });

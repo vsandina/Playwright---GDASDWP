@@ -12,8 +12,7 @@ export default class ReportUtils {
             body: screenshotBuffer,
             contentType: 'image/png'
         });
-        // Attach screenshot to Allure report
-        attachment(description, screenshotBuffer, 'image/png');
+        
     }
 
     public static async attachVideo(page: Page, description?: string) {

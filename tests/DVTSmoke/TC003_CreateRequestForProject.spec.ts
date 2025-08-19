@@ -36,7 +36,10 @@ test.describe.serial("RequestForProject", () => {
         await login.nxtButton();
         await login.enterUserPassword(data.pass);
         await login.clickSignBtn();
-        await page.locator(Locators.popup).click();
+        const closeButton = page.getByRole('button', { name: 'Close' });
+        if (await closeButton.isVisible().catch(() => false)) {
+            await closeButton.click();
+        }
         console.log("Login completed successfully");
     });
 
@@ -48,7 +51,7 @@ test.describe.serial("RequestForProject", () => {
 
     test("Filters and Dropdowns", async () => {
         await filtersPage.applyFiltersAndSelect("projects", data.projectfilename);
-        
+                
     });
     test.setTimeout(200000);
     test("TC013_CreateRequestForProject", async () => {
@@ -57,6 +60,7 @@ test.describe.serial("RequestForProject", () => {
         // Wait for the request created success toaster before taking screenshot
         await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
         await ReportUtils.screenshot(page, "Request_Creation_Success");
+        await page.waitForTimeout(5000);
         await page.waitForSelector('.datatable-body-row');
         const firstRow = page.locator('.datatable-body-row').first();
         let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();

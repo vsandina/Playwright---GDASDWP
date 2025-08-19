@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import LoginPage from "../../PageObjectsTest/LoginPage.spec";
 import Env from "../../utils/environment";
 import * as data from "../../data/login.cred.json";
+import * as AoVersion from "../../data/AoVersionBuffer.json";
 import ServerSelection from '../../PageObjectsTest/ServerSelection.spec';
 import DeliveryCenterPopup from "../../PageObjectsTest/DeliveryCenterPopup.spec";
 import ReportUtils from "../../utils/reportUtils.spec";
@@ -9,18 +10,17 @@ import GlobalDeliveryCenter from "../../PageObjectsTest/GlobalDeliveryCenter";
 import { Locators } from '../../PageObjectsTest/locators';
 
 test.use({
-  viewport: { width: 1920, height: 1080,  },
+    viewport: { width: 1521, height: 791, },
 });
 
-test.describe.serial("AOFeatureEnablement", () =>
-{// Describe the test suite for AOFeatureEnablement
+test.describe.serial("AOFeatureEnablement", () => {// Describe the test suite for AOFeatureEnablement
     let login: LoginPage;// Declare the LoginPage object
     let page;
     let context;
     let serverSelection: ServerSelection;// Declare the ServerSelection object
     let deliveryCenterPopup: DeliveryCenterPopup;// Declare the DeliveryCenterPopup object
     let globalDeliveryCenter: GlobalDeliveryCenter;// Declare the GlobalDeliveryCenter object
-   
+
     test.beforeAll(async ({ browser }) => {
         context = await browser.newContext();// Create a new browser context
         page = await context.newPage();// Open a new page in the browser context
@@ -43,7 +43,7 @@ test.describe.serial("AOFeatureEnablement", () =>
             throw new Error('Login failed: Email and password do not match.');
         }
         console.log("Login completed successfully");
-      
+
         // Server Selection
         await serverSelection.selectAndHandleServer();
         console.log("Server selection completed successfully");
@@ -57,19 +57,25 @@ test.describe.serial("AOFeatureEnablement", () =>
         await page.click(Locators.memberfirm);
         await page.locator(Locators.memberfirmtextbox).fill(data.servercode);
         await page.locator(Locators.Applybutton).click();
-       // Assert that the latest version is visible (dynamically from test data)
-        const latestVersion = data.latestVersion;
-        // Update data.latestVersion in login.cred.json for each release
-        const versionLocator = page.locator(`div[title='${latestVersion}']`);
         await page.waitForTimeout(5000); // Wait for the page to load
-        await ReportUtils.screenshot(page, "AOFeatureEnablement Latest Version");
-        console.log("AOFeatureEnablement Latest Version is ", latestVersion);
 
+        const versionLocator = await page.locator(".ng-star-inserted").nth(128).textContent();
+        // Buffer the versionLocator value to a file
+        const fs = require('fs');
+        fs.writeFileSync(require('path').resolve(__dirname, '../../data/AoVersionBuffer.json'), JSON.stringify({ versionLocator }));
+
+        const lastVersion = AoVersion.versionLocator;
+
+        if (versionLocator && versionLocator.includes(lastVersion)){
+            console.log("AOFeatureEnablement current Version is ", lastVersion );
+        }else{
+            console.log("AOFeatureEnablement Updated Version is ", versionLocator);
+        }
+        await ReportUtils.screenshot(page, "AOFeatureEnablement Latest Version");
     });
     test("Cleanup", async () => {
         if (page) await page.close();
         if (context) await context.close();
     });
-    
-});
 
+});
