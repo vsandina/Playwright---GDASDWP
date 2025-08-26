@@ -28,7 +28,11 @@ export default defineConfig({
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // reporter: 'html',,
-  reporter: [['allure-playwright'], ['html']],
+  reporter: [
+    ['allure-playwright'],
+    // Avoid blocking CI with the HTML server; support Azure DevOps classic (TF_BUILD) and generic CI.
+    ['html', { open: (process.env.CI || process.env.TF_BUILD) ? 'never' : 'on-failure' }]
+  ],
   // reporter: [["line"], ["allure-playwright"],["html"]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

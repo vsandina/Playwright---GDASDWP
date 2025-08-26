@@ -1,6 +1,7 @@
-import { Page } from '@playwright/test';
+import { Page, expect} from '@playwright/test';
 import { Locators } from './locators';
-import path from 'path';
+import ReportUtils from "../utils/reportUtils.spec";
+import * as fs from 'fs';
 
 export default class RequestCreationPage {
     readonly page: Page;
@@ -28,8 +29,15 @@ export default class RequestCreationPage {
         await this.page.getByText('Information', { exact: true }).click();
         await this.page.locator(Locators.requestDetailsTab).click();
         await this.page.locator(Locators.entityDropdown).click();
+                const hasPlaceholder = await this.page
+            .locator('#EntityNameDropdown .aoui-select-selection__placeholder')
+            .isVisible()
+            .catch(() => false);
+        if (hasPlaceholder) {
+            await this.page.locator('.aoui-select-results__option-label').nth(0).click();
+        }
     // Append text to the existing value in the request name textbox
-         await this.page.locator(Locators.EntityNameDropdown).getByText('@!3@^%').first().click();
+        await this.page.locator('.aoui-select-results__option-label').nth(0).click();
         await this.page.locator("#request-name").clear();
         await this.page.locator('#request-name').fill(" Playwrightautomation");
         await this.page.locator(Locators.chargeCodeTextbox).getByRole('textbox').click();
@@ -67,9 +75,18 @@ export default class RequestCreationPage {
         await this.page.locator('#addDetails .aoui-form-control').nth(0).fill('Test1');
         await this.page.locator('#addDetails .aoui-form-control').nth(1).fill('Test2');
         // Submit the request
-        const closeButton = this.page.locator('#onetrust-close-btn-container');
-        await closeButton.click();
+        // await this.page.locator('#onetrust-close-btn-container').click();
         await this.page.locator("//span[normalize-space()='Submit Request']").click();
+        await expect(this.page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
+        await ReportUtils.screenshot(this.page, "Request_Creation_Success");
+        await this.page.waitForTimeout(5000);
+        await this.page.waitForSelector('.datatable-body-row');
+        const firstRow = this.page.locator('.datatable-body-row').first();
+        let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
+        await this.page.waitForLoadState('domcontentloaded');
+        console.log('Buffered requestId:', requestId);
+        // Write the buffered requestId to buffer.json for use in other tests
+        fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
         await this.page.waitForLoadState('domcontentloaded');
         console.log("Omnia Single Request created successfully");
     }

@@ -1,13 +1,10 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
 import LoginPage from "../../PageObjectsTest/LoginPage.spec";
 import Env from "../../utils/environment";
 import * as data from "../../data/login.cred.json";
-import ReportUtils from "../../utils/reportUtils.spec";
 import ServerSelection  from "../../PageObjectsTest/ServerSelection.spec";
 import FiltersPage from "../../PageObjectsTest/FiltersPage";
 import RequestCreationPage from "../../PageObjectsTest/RequestCreationforEMS";
-import { Locators } from '../../PageObjectsTest/locators';
 
 test.use({
   viewport: { width: 1920, height: 937 },
@@ -54,24 +51,11 @@ test.describe.serial("EMSRequestCreation", () => {
         
     });
     test.setTimeout(100000);
-    test("SingleRequestCreation", async () => {
-    requestCreationPage = new RequestCreationPage(page);
-    await requestCreationPage.createRequestEMS(data.requesttemplate);
-    await requestCreationPage.CreateSingleRequest();
-    await page.waitForTimeout(6000);
-    // Wait for the request created success toaster
-           // Wait for the request created success toaster before taking screenshot
-           await expect(page.locator("//div[contains(@class,'sn-content') and contains(.,'New Request Created')]")).toBeVisible({ timeout: 15000 });
-           await ReportUtils.screenshot(page, "Request_Creation_Success");
-           await page.waitForTimeout(5000);
-        //    await page.locator('.radc-list-div-table .datatable-body').waitFor();
-           await page.waitForSelector('.datatable-body-row');
-           const firstRow = page.locator('.datatable-body-row').first();
-           let requestId = await firstRow.locator('.datatable-body-cell').first().innerText();
-           console.log('Buffered EMS requestId:', requestId);
-           // Write the buffered EMS requestId to buffer.json for use in other tests
-           fs.writeFileSync('data/buffer.json', JSON.stringify({ requestId }));
-        });
+    test("TC002_SingleRequestCreationForEMS", async () => {
+        requestCreationPage = new RequestCreationPage(page);
+        await requestCreationPage.createRequestEMS(data.requesttemplate);
+        await requestCreationPage.CreateSingleRequest();
+ });
 
     test("Cleanup", async () => {
         if (page) await page.close();

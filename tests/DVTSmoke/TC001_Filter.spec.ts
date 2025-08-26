@@ -14,7 +14,6 @@ test.use({
 
 test.describe.serial("TC001_FiltersOnHomepage", () => {
     // Describe the test suite for FiltersOnHomepage
-
     let login: LoginPage;// Declare the LoginPage object
     let page;
     let context;
@@ -40,6 +39,7 @@ test.describe.serial("TC001_FiltersOnHomepage", () => {
     await login.nxtButton();
     await login.enterUserPassword(data.pass);
     await login.clickSignBtn();
+    await page.locator('#onetrust-close-btn-container').click();
     console.log("Login completed successfully");
 
     // Server Selection

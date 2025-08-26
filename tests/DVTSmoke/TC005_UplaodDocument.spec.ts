@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
 import LoginPage from "../../PageObjectsTest/LoginPage.spec";
 import Env from "../../utils/environment";
 import * as data from "../../data/login.cred.json";
@@ -24,7 +23,7 @@ test.describe.serial("EMSRequestCreation", () => {
         context = await browser.newContext({
             recordVideo: {
                 dir: 'videos/',
-                size: { width: 1920, height: 1080 } // Set high resolution for clear video
+                size: { width: 1920, height: 937 } // Set high resolution for clear video
             }
         });
         page = await context.newPage();
